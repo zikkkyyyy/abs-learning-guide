@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABS: From Concept to Productization</title>
+<style>
+  :root {
+    --navy: #0f2d54;
+    --blue: #1a5fa8;
+    --light-blue: #e8f2ff;
+    --accent: #f97316;
+    --green: #16a34a;
+    --red: #dc2626;
+    --yellow: #eab308;
+    --gray: #64748b;
+    --light-gray: #f8fafc;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-light: #475569;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.7;
+  }
+
+  /* ── Layout ── */
+  .page-wrapper { display: flex; min-height: 100vh; }
+
+  nav {
+    width: 260px;
+    min-width: 260px;
+    background: var(--navy);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 24px 0;
+  }
+
+  nav .logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 16px;
+  }
+  nav .logo .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  nav .logo h2 { font-size: 15px; font-weight: 700; line-height: 1.4; }
+
+  nav .nav-section { padding: 6px 20px; margin-top: 8px; }
+  nav .nav-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+    margin-top: 12px;
+  }
+  nav a {
+    display: block;
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  nav a.active { background: var(--blue); color: #fff; }
+
+  main {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 48px 120px;
+  }
+
+  /* ── Typography ── */
+  h1 { font-size: 34px; font-weight: 800; color: var(--navy); line-height: 1.2; margin-bottom: 12px; }
+  h2 { font-size: 24px; font-weight: 700; color: var(--navy); margin: 56px 0 16px; padding-top: 8px; }
+  h3 { font-size: 17px; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
+  h4 { font-size: 14px; font-weight: 700; color: var(--text); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  p  { margin-bottom: 14px; font-size: 15px; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { font-size: 15px; margin-bottom: 6px; }
+  strong { color: var(--navy); }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a4a8a 100%);
+    color: #fff;
+    padding: 48px;
+    border-radius: 16px;
+    margin-bottom: 48px;
+  }
+  .hero .meta { font-size: 13px; opacity: 0.65; margin-bottom: 10px; }
+  .hero h1 { color: #fff; font-size: 32px; margin-bottom: 14px; }
+  .hero p { font-size: 15px; opacity: 0.85; margin-bottom: 0; }
+  .hero .tags { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero .tag {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--light-blue);
+    border-left: 4px solid var(--blue);
+    padding: 16px 20px;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 28px;
+  }
+  .section-header .num {
+    background: var(--blue);
+    color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-header h2 { margin: 0; font-size: 20px; }
+
+  /* ── Cards ── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 24px 0; }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    background: #fff;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .card .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card h3 { font-size: 15px; margin: 0 0 8px; }
+  .card p { font-size: 14px; color: var(--text-light); margin: 0; }
+
+  /* colored top border */
+  .card.blue  { border-top: 3px solid var(--blue); }
+  .card.green { border-top: 3px solid var(--green); }
+  .card.orange{ border-top: 3px solid var(--accent); }
+  .card.red   { border-top: 3px solid var(--red); }
+  .card.yellow{ border-top: 3px solid var(--yellow); }
+  .card.navy  { border-top: 3px solid var(--navy); }
+
+  /* ── Callout ── */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .callout.info  { background: var(--light-blue); border-left: 4px solid var(--blue); }
+  .callout.warn  { background: #fff7ed; border-left: 4px solid var(--accent); }
+  .callout.tip   { background: #f0fdf4; border-left: 4px solid var(--green); }
+  .callout.key   { background: #fdf4ff; border-left: 4px solid #a855f7; }
+  .callout strong { display: block; margin-bottom: 4px; }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    flex-wrap: wrap;
+    overflow-x: auto;
+  }
+  .flow-item {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .flow-item.light { background: var(--light-blue); color: var(--navy); }
+  .flow-item.accent { background: var(--accent); color: #fff; }
+  .flow-item.green { background: #dcfce7; color: #166534; }
+  .flow-arrow { color: var(--gray); font-size: 20px; padding: 0 6px; flex-shrink: 0; }
+
+  /* ── Table ── */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  th {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--light-gray); }
+  tr:hover td { background: var(--light-blue); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; margin: 24px 0; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -22px; top: 5px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+  .timeline-item .tl-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .timeline-item h4 { margin: 0 0 6px; font-size: 15px; font-weight: 700; text-transform: none; letter-spacing: 0; }
+  .timeline-item p { font-size: 14px; color: var(--text-light); margin: 0; }
+
+  /* ── Comparison ── */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .compare-card { border-radius: 12px; padding: 20px; }
+  .compare-card.left  { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .compare-card.right { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .compare-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .compare-card ul { padding-left: 16px; }
+  .compare-card li { font-size: 13px; margin-bottom: 5px; }
+
+  /* ── Benefit blocks ── */
+  .benefit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .benefit-block { padding: 18px; border-radius: 10px; }
+  .benefit-block.originator { background: #eff6ff; }
+  .benefit-block.investor   { background: #f0fdf4; }
+  .benefit-block h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .benefit-block li { font-size: 13px; margin-bottom: 6px; }
+
+  /* ── Pills ── */
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .pill.blue   { background: var(--light-blue); color: var(--blue); }
+  .pill.green  { background: #dcfce7; color: #166534; }
+  .pill.orange { background: #fff7ed; color: #9a3412; }
+  .pill.purple { background: #fdf4ff; color: #7e22ce; }
+
+  /* ── Feature highlight ── */
+  .feature-block {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .feature-block .feature-tag {
+    display: inline-block;
+    background: var(--navy);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .feature-block h3 { margin: 0 0 10px; }
+  .feature-block p { font-size: 14px; color: var(--text-light); margin-bottom: 10px; }
+  .feature-block ul { padding-left: 18px; }
+  .feature-block li { font-size: 14px; margin-bottom: 5px; }
+
+  /* ── Score formula ── */
+  .formula {
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    margin: 16px 0;
+    line-height: 1.8;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── Scroll progress ── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 999;
+    transition: width 0.1s;
+  }
+
+  /* ── Back to top ── */
+  #back-top {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    background: var(--navy);
+    color: #fff;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+  }
+  #back-top.visible { opacity: 1; }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { padding: 24px 20px 80px; }
+    .compare-grid, .benefit-row { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- Sidebar Navigation -->
+<div class="page-wrapper">
+<nav>
+  <div class="logo">
+    <div class="badge">Monee Funding</div>
+    <h2>ABS: From Concept to Productization</h2>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Part 1 — Concepts</div>
+    <a href="#what-is-abs">What is ABS?</a>
+    <a href="#key-parties">Key Parties</a>
+    <a href="#how-abs-works">How ABS Works</a>
+    <a href="#tranche-waterfall">Tranche & Waterfall</a>
+    <a href="#abs-vs-abl">ABS vs ABL</a>
+    <a href="#monee-benefits">How Monee Benefits</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Part 2 — System</div>
+    <a href="#system-overview">System Overview</a>
+    <a href="#key-features">Key Features</a>
+    <a href="#allocation-logic">Allocation Logic</a>
+    <a href="#investor-portal">Investor Portal</a>
+    <a href="#portal-modules">Core Modules</a>
+    <a href="#batch-lifecycle-portal">Batch Lifecycle</a>
+    <a href="#portal-access">Access Control</a>
+    <a href="#portal-roadmap">Portal Roadmap</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Part 3 — Daily Ops</div>
+    <a href="#ops-overview">Portfolio Lifecycle</a>
+    <a href="#ops-flow-models">Ops Flow Models</a>
+    <a href="#ec-pc">EC &amp; PC Rules</a>
+    <a href="#monitoring-triggers">Monitoring Triggers</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Part 4 — Risk & Reward</div>
+    <a href="#biz-risk-reward">Business Context</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Part 5 — Productization</div>
+    <a href="#why-productize">Why Productize</a>
+    <a href="#where-productize">Where to Productize</a>
+    <a href="#key-deliverables">Key Deliverables</a>
+    <a href="#allocation-strategy">Allocation Strategy</a>
+    <a href="#funder-priority">Funder Priority Model</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Appendix</div>
+    <a href="#faq">FAQ</a>
+    <a href="#lifecycle">Project Lifecycle</a>
+    <a href="#glossary">Glossary</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="meta">Monee Funding Team · Zikky · June 2025 &amp; Sep 2025</div>
+    <h1>ABS: From Concept to Productization</h1>
+    <p>A complete guide to Asset-Backed Securities — covering what ABS is, how our system supports it end-to-end, and how we're productizing it at scale across funders and regions.</p>
+    <div class="tags">
+      <span class="tag">ABS Knowledge Sharing</span>
+      <span class="tag">Productization Roadmap</span>
+      <span class="tag">Monee Learning Series 2025</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════
+       PART 1 — CONCEPTS
+  ══════════════════════════════════════════════ -->
+
+  <div class="section-header" id="what-is-abs">
+    <div class="num">1</div>
+    <div>
+      <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Part 1 — Concepts</div>
+      <h2 style="margin:0">What is ABS?</h2>
+    </div>
+  </div>
+
+  <p>Asset-Backed Securities (ABS) is a way to convert a pool of future receivables into tradable securities today. Think of it as a company saying: <em>"I have $10M coming in over the next 2 years — I'll package that future cash flow, sell it to investors now, and get capital immediately."</em></p>
+
+  <div class="callout info">
+    <strong>🥥 The Coconut Analogy</strong>
+    Throughout this guide, we use a <strong>fruit supplier</strong> as a running example. The supplier has stable long-term contracts with hawker centers to deliver coconuts — those contracts represent predictable future cash flows, making them ideal ABS assets.
+  </div>
+
+  <h3 id="key-parties">Key Parties in an ABS Transaction</h3>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-icon">🏭</div>
+      <h3>1. Originator</h3>
+      <p>Owns the receivables and wants cash now. Sells future income rights to the SPV. In Monee's case, Monee is the Originator (and also the Servicer).</p>
+    </div>
+    <div class="card navy">
+      <div class="card-icon">🏛️</div>
+      <h3>2. SPV</h3>
+      <p>Special Purpose Vehicle — a separate legal entity created solely to hold the sold receivables and issue ABS notes to investors. Isolates risk from the Originator.</p>
+    </div>
+    <div class="card green">
+      <div class="card-icon">💰</div>
+      <h3>3. Investor</h3>
+      <p>Buys the ABS notes (usually Senior Notes). Provides upfront capital in exchange for scheduled interest and principal repayment backed by receivables.</p>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">🏪</div>
+      <h3>4. Borrowers</h3>
+      <p>Make scheduled payments generating the cash flow that backs the ABS. In the example: hawker centers paying their coconut contracts.</p>
+    </div>
+    <div class="card yellow">
+      <div class="card-icon">📊</div>
+      <h3>5. Rating Agency</h3>
+      <p>Independent third party evaluating credit risk of the ABS and assigning a rating. Adds credibility, like a mall endorsement for the hawker center.</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">⚙️</div>
+      <h3>6. Servicer</h3>
+      <p>Manages the loan portfolio on behalf of the SPV — collects repayments, monitors portfolio health, manages defaults. Monee acts as both Originator and Servicer.</p>
+    </div>
+  </div>
+
+  <h3>SPV Deep Dive: Why Not Raise Money Directly?</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>For the Originator</h3>
+      <ul>
+        <li><strong>Risk is separated</strong> — SPV is a different legal entity; transfers asset risk out, doesn't interrupt daily operations</li>
+        <li>The fruit supplier can keep running the shop while the SPV manages the coconut contract receivables</li>
+        <li>Bankruptcy remoteness: SPV assets are protected from Originator's creditors</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h3>For the Investor</h3>
+      <ul>
+        <li><strong>Simpler and clearer</strong> — only exposed to a specific set of receivables (just the coconut business)</li>
+        <li>Don't need to worry about whether the fruit shop is also profitable at mangoes or durians</li>
+        <li>Senior Note holders get paid first — lowest risk tranche</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="how-abs-works">How ABS Works: Money Flow</h3>
+
+  <div class="flow">
+    <div class="flow-item light">Borrowers<br><small style="font-weight:400;opacity:0.8">Hawker Centers</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">Originator / Servicer<br><small style="font-weight:400;opacity:0.8">Monee collects repayments</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item light">SPV<br><small style="font-weight:400;opacity:0.8">Holds receivables, issues notes</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item accent">Investors<br><small style="font-weight:400;opacity:0.8">Receive principal + interest</small></div>
+  </div>
+
+  <div class="callout tip">
+    <strong>Example transaction:</strong>
+    SPV issues a 2-year ABS backed by ～$10M of coconut receivables. Investors put in $10M upfront. The fruit supplier gets $10M now and uses it to expand. Over 2 years, hawker centers pay their contracts → cash flows through to investors as interest + principal, targeting 5% annual return. Investors receive ~$11.05M total at maturity.
+  </div>
+
+  <h3 id="tranche-waterfall">Tranche Structure &amp; Repayment Waterfall</h3>
+
+  <p>ABS securities are split into <strong>tranches</strong> — slices of the asset pool with different risk/return profiles. This mechanism makes ABS attractive to a wide range of investors.</p>
+
+  <div style="margin:24px 0">
+    <div style="display:flex;border-radius:10px;overflow:hidden;height:56px;box-shadow:0 2px 12px rgba(0,0,0,0.1)">
+      <div style="background:var(--navy);color:#fff;width:70%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">Senior Notes — ~70% · AAA/AA Rated · First Loss Protection</div>
+      <div style="background:var(--accent);color:#fff;width:30%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">Junior Notes — ~30%</div>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>🔵 Senior Notes — Low Risk, Low Yield</h3>
+      <ul>
+        <li>Backed by the most stable, reliable loan receivables</li>
+        <li>Receive interest and principal <strong>before</strong> Junior Note holders in every payment cycle</li>
+        <li>Rated AAA/AA by rating agencies</li>
+        <li>Where most external investors participate</li>
+        <li>First priority in the repayment waterfall</li>
+      </ul>
+    </div>
+    <div class="compare-card right" style="background:#fff7ed;border-color:#fed7aa">
+      <h3>🟠 Junior Notes — Higher Risk, Higher Yield</h3>
+      <ul>
+        <li>The <strong>first-loss tranche</strong> — if borrowers default, Junior noteholders absorb losses first</li>
+        <li>Earn <strong>excess spread</strong> — yield difference between portfolio interest income and senior coupon</li>
+        <li><strong>Monee typically retains Junior Notes</strong> — signals confidence in loan quality and captures upside from strong portfolio performance</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>🌊 The Repayment Waterfall</h4>
+  <p>When borrowers repay, cash flows into the SPV and is distributed in strict priority order — higher priority gets paid first, like water flowing downhill.</p>
+
+  <div style="margin:20px 0">
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:#f1f5f9;border-left:4px solid #94a3b8;border-radius:8px 8px 0 0;font-size:14px"><span style="font-weight:700;color:#64748b;min-width:24px">①</span><div><strong>Transaction Costs &amp; Trustee Fees</strong><span style="color:var(--text-light);margin-left:8px">Running costs of the SPV structure</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:#eff6ff;border-left:4px solid #93c5fd;margin-top:2px;font-size:14px"><span style="font-weight:700;color:#3b82f6;min-width:24px">②</span><div><strong>Servicer Fee</strong><span style="color:var(--text-light);margin-left:8px">Compensation to Monee for ongoing portfolio management</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:var(--navy);border-left:4px solid var(--navy);margin-top:2px;border-radius:0;font-size:14px"><span style="font-weight:700;color:#93c5fd;min-width:24px">③</span><div><strong style="color:#fff">Senior Note Interest &amp; Principal</strong><span style="color:rgba(255,255,255,0.7);margin-left:8px">External investors paid first — lowest risk, AAA rated</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:#fff7ed;border-left:4px solid var(--accent);margin-top:2px;font-size:14px"><span style="font-weight:700;color:var(--accent);min-width:24px">④</span><div><strong>Junior Note Interest &amp; Principal</strong><span style="color:var(--text-light);margin-left:8px">Monee-retained tranche — absorbs losses, captures excess yield</span></div></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:#f0fdf4;border-left:4px solid var(--green);margin-top:2px;border-radius:0 0 8px 8px;font-size:14px"><span style="font-weight:700;color:var(--green);min-width:24px">⑤</span><div><strong>Residual / Excess Spread</strong><span style="color:var(--text-light);margin-left:8px">Any surplus after all payments → goes to Junior noteholder (Monee)</span></div></div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <strong>Why does Monee retain Junior Notes?</strong>
+    By holding Junior Notes, Monee participates in the upside when portfolio performance is strong (excess spread income). It also signals confidence to investors — if Monee believes in its own loan quality, it keeps skin in the game. This is a feature, not a bug.
+  </div>
+
+  <h3 id="abs-vs-abl">ABS vs ABL — What's the Difference?</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>ABS (Asset-Backed Securitization)</th>
+        <th>ABL (Asset-Based Lending)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Structure</strong></td>
+        <td>With SPV; true sale of assets</td>
+        <td>No SPV required; pledge/loan structure</td>
+      </tr>
+      <tr>
+        <td><strong>Balance Sheet</strong></td>
+        <td>Off-balance sheet (assets sold to SPV)</td>
+        <td>On/off balance sheet depending on structure</td>
+      </tr>
+      <tr>
+        <td><strong>Counterparty</strong></td>
+        <td>Fixed-income investors</td>
+        <td>Banks / corporate lenders</td>
+      </tr>
+      <tr>
+        <td><strong>Proceeds</strong></td>
+        <td>~100% of receivable value (e.g. $10M)</td>
+        <td>Typically 90–95% (e.g. $9.5M with haircut)</td>
+      </tr>
+      <tr>
+        <td><strong>Risk transfer</strong></td>
+        <td>Legal ownership transferred to SPV</td>
+        <td>Risk stays with originator; assets pledged as collateral</td>
+      </tr>
+      <tr>
+        <td><strong>Scalability</strong></td>
+        <td>Repeatable, project-based issuance</td>
+        <td>Typically a single facility per bank</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="monee-benefits">How Monee Benefits from ABS</h3>
+
+  <div class="benefit-row">
+    <div class="benefit-block originator">
+      <h4>Platform Benefits</h4>
+      <ul>
+        <li><strong>Upfront liquidity</strong> — sell now, collect later; improves working capital for reinvestment</li>
+        <li><strong>Risk isolation</strong> — clean transfer to SPV keeps balance sheet lean, even if loans underperform later</li>
+        <li><strong>Retain upside</strong> — Monee retains Junior Notes, capturing any outperformance above expected losses</li>
+        <li><strong>Repeatable & scalable</strong> — package receivables in batches, repeat issuance multiple times per year</li>
+      </ul>
+    </div>
+    <div class="benefit-block investor">
+      <h4>Investor Benefits</h4>
+      <ul>
+        <li><strong>Fixed returns</strong> — e.g. 5% annual yield over 2 years</li>
+        <li><strong>Low risk via Senior Notes</strong> — first priority in repayment waterfall</li>
+        <li><strong>Transparent structure</strong> — SPV isolates from Originator's business risk</li>
+        <li><strong>Backed by stable receivables</strong> — predictable consumer loan repayments</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout key">
+    <strong>ABS allows Monee to:</strong>
+    Convert assets into capital · Separate risk legally · Retain long-term upside · Scale beyond a single funder relationship
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       PART 2 — SYSTEM
+  ══════════════════════════════════════════════ -->
+
+  <div class="section-header" id="system-overview">
+    <div class="num">2</div>
+    <div>
+      <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Part 2 — System</div>
+      <h2 style="margin:0">How We Built the Funding System to Support ABS</h2>
+    </div>
+  </div>
+
+  <p>Building system support for ABS means bridging <strong>info flow</strong> (who knows what, when) and <strong>money flow</strong> (who pays whom, when). The Funding system manages the full ABS lifecycle across four stages:</p>
+
+  <div class="flow" style="gap:0">
+    <div class="flow-item">Initial Batch<br><small style="font-weight:400;opacity:0.8">Setup &amp; approval</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item light">Batch Cutoff<br><small style="font-weight:400;opacity:0.8">Portfolio selection</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item accent">Selling<br><small style="font-weight:400;opacity:0.8">Transfer &amp; pricing</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item green" style="background:#dcfce7;color:#166534">Post Sale Mgmt<br><small style="font-weight:400;opacity:0.8">Reconciliation &amp; reporting</small></div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Info Flow</th><th>Money Flow</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Initial Batch</strong></td>
+        <td>Set key parameters, internal approvals, batch setup in system</td>
+        <td>No money flow yet</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Cutoff</strong></td>
+        <td>Apply eligibility rules, generate & adjust asset list, finalize eligible portfolio</td>
+        <td>Pricing logic output, asset allocation preparation</td>
+      </tr>
+      <tr>
+        <td><strong>Selling</strong></td>
+        <td>Legal docs, investor deal info, disclosure</td>
+        <td>SPV pays Monee for the asset pool; Senior Notes sold to investors</td>
+      </tr>
+      <tr>
+        <td><strong>Post Sale Mgmt</strong></td>
+        <td>Reporting, audit, disclosures to investors</td>
+        <td>Collection reconciliation, replenishment, clawback, settlement</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>ABS System in Layers</h3>
+
+  <div class="card-grid" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="card navy" style="text-align:center">
+      <div class="card-icon">🔍</div>
+      <h3>Investor Disclosure</h3>
+      <p>Investor Portal, announcements, reporting — external-facing transparency</p>
+    </div>
+    <div class="card blue" style="text-align:center">
+      <div class="card-icon">⚙️</div>
+      <h3>Business Operations</h3>
+      <p>Asset pricing, allocation, batch management — internal operational layer</p>
+    </div>
+    <div class="card orange" style="text-align:center">
+      <div class="card-icon">📦</div>
+      <h3>Asset Management</h3>
+      <p>End-to-end asset pooling, adjustment, risk &amp; reward tracking</p>
+    </div>
+  </div>
+
+  <h3 id="key-features">Key Feature Highlights</h3>
+
+  <div class="feature-block">
+    <div class="feature-tag">Before · During · After Sale</div>
+    <h3>Asset Pool Management</h3>
+    <p>The system supports dynamic adjustment of the asset pool across the full sale lifecycle:</p>
+    <ul>
+      <li><strong>Before Sale</strong> — Early warning for potential asset risks; update batch info</li>
+      <li><strong>During Sale</strong> — Asset pool changes dynamically; system enables real-time adjustment (start replenish, start revoke, create repack)</li>
+      <li><strong>After Sale</strong> — Consistently track portfolio performance; manual tagging, batch import/export, full audit trail</li>
+    </ul>
+  </div>
+
+  <div class="feature-block" id="allocation-logic">
+    <div class="feature-tag">Core Logic</div>
+    <h3>Asset Allocation — The 4-Table Schema</h3>
+    <p>The allocation logic determines how receivables are split between the Originator and SPV at each cutoff date. Funding applies ABS allocation rules using a "4-table schema":</p>
+    <table>
+      <thead><tr><th>Table</th><th>What It Represents</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>T1</strong> — User Side Receivable</td>
+          <td>Total receivables owed by the borrower (e.g. hawker center)</td>
+        </tr>
+        <tr>
+          <td><strong>T2</strong> — Transferable to SPV</td>
+          <td>Receivables that can be transferred to SPV</td>
+        </tr>
+        <tr>
+          <td><strong>T3</strong> — Platform Side Retention</td>
+          <td>Portion retained by the Originator (Monee's retained slice)</td>
+        </tr>
+        <tr>
+          <td><strong>T4</strong> — (Output)</td>
+          <td>Detailed allocation results, traceable by rule &amp; table</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="feature-block">
+    <div class="feature-tag">Pricing</div>
+    <h3>Asset Pricing Model</h3>
+    <p>To meet diverse business needs, the Funding system supports configurable pricing models:</p>
+    <ul>
+      <li><strong>Discounting Model</strong> — Originator prices receivables below face value, giving greater upfront liquidity at a cost</li>
+      <li>Configure discount rate, Effective Interest Rate (EIR), and pricing logic per project</li>
+      <li>Auto-calculates discounted selling price &amp; repurchase price based on business-defined pricing rules</li>
+      <li>Modularized: discounting can be turned on/off per project setup</li>
+    </ul>
+  </div>
+
+  <h3 id="investor-portal">Investor Portal — External Disclosure Layer</h3>
+
+  <h4>Why Does ABS Need an Investor Portal?</h4>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-icon">🔍</div>
+      <h3>Transparency & Visibility</h3>
+      <p>Investors commit large, long-term capital but cannot see internal ABS processes. The portal gives them a validated, read-only window into batch status and lifecycle events.</p>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">📉</div>
+      <h3>Risk Monitoring</h3>
+      <p>ABS performance is dynamic — cashflows fluctuate, risk fluctuates. Ongoing monitoring is crucial; the portal delivers timely updates without exposing internal operations.</p>
+    </div>
+    <div class="card green">
+      <div class="card-icon">⚖️</div>
+      <h3>Trust & Compliance</h3>
+      <p>Trust depends on timely, consistent reporting. The portal supports compliance, fairness, and audit traceability for both internal teams and regulators.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>Why doesn't Channeling need a portal?</strong>
+    Channeling banks get full transparency through <strong>direct system integrations</strong> — raw loan-level data pushed to their internal systems via SFTP/API daily. ABS external investors have no such feed, so the portal exists to give them equivalent visibility in a structured, controlled way.
+  </div>
+
+  <h4>The Vault and the Window</h4>
+
+  <div class="compare-grid">
+    <div class="compare-card left" style="background:#f8fafc;border-color:#e2e8f0">
+      <h3>🔒 The Vault — Internal Systems</h3>
+      <ul>
+        <li>Protects internal systems and operational controls</li>
+        <li>Contains sensitive routing logic, money movement rules, business strategy</li>
+        <li>Only internal teams can access and operate it</li>
+        <li>Examples: Funding Admin, Settlement Platform</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h3>🪟 The Window — Investor Portal</h3>
+      <ul>
+        <li>Lets investors see <strong>validated, read-only</strong> information</li>
+        <li>Does not let them manipulate internal data</li>
+        <li>Converts internal operational activity into investor-friendly output</li>
+        <li>Provides confidence without operational exposure</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Funding Admin vs Investor Portal</h4>
+
+  <table>
+    <thead>
+      <tr><th></th><th>Funding Admin (Internal)</th><th>Investor Portal (External)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Audience</strong></td>
+        <td>Ops, Local FinOps, Legal, BD</td>
+        <td>Investors, Local CEO (signing)</td>
+      </tr>
+      <tr>
+        <td><strong>Purpose</strong></td>
+        <td>Run the engine — lender setup, routing, clearing, settlement workflows</td>
+        <td>Reveal the output — lifecycle events, reports, disclosures</td>
+      </tr>
+      <tr>
+        <td><strong>Data sensitivity</strong></td>
+        <td>Contains internal business logic, routing rules, real money movement actions</td>
+        <td>Read-only validated data; no access to operational controls</td>
+      </tr>
+      <tr>
+        <td><strong>Access</strong></td>
+        <td>Requires training and SOP; internal-only</td>
+        <td>Role-based; investor-safe by design</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="portal-modules">Core Modules</h3>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-icon">📢</div>
+      <h3>Announcements</h3>
+      <p>Communicates lifecycle events — broadcasts batch create, cutoff, sold, revoke. Tells investors <em>"what happened and when."</em> Auto-generated by system at each milestone.</p>
+    </div>
+    <div class="card green">
+      <div class="card-icon">📁</div>
+      <h3>File Management</h3>
+      <p>Delivers detailed reporting tied directly to announcement events. Stores pending sold loan tapes, cutoff tapes, servicer reports, and transferred loan tapes.</p>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">🗂️</div>
+      <h3>Project Management</h3>
+      <p>Data isolation and permission governance. Defines which investor sees which project. Enforces role-based access at the project level.</p>
+    </div>
+    <div class="card navy">
+      <div class="card-icon">🧾</div>
+      <h3>Audit Center</h3>
+      <p>Compliance and traceability — logs page views, file downloads, and all user actions. Ensures internal and regulatory transparency. Exportable for offline record-keeping.</p>
+    </div>
+  </div>
+
+  <h3 id="batch-lifecycle-portal">Batch Lifecycle in the Investor Portal</h3>
+
+  <p>Every batch lifecycle event in the Funding system automatically triggers a corresponding announcement and file upload in the Investor Portal:</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-label">Stage 1</div>
+      <h4>Batch Creation</h4>
+      <p>Maker creates batch creation ticket → Checker approves → batch status goes to <strong>INIT</strong>.<br>
+      Portal: auto-announcement generated for <em>Batch Create</em> topic. Batch exists in system but hasn't undergone verification yet.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 2</div>
+      <h4>Batch Cutoff</h4>
+      <p>System obtains pending sold report at cutoff D 12pm, applies RAC &amp; traffic control, flags mismatches, calculates discounted selling price if discount model applies. Batch status: INIT → Batching/Matched → Pending_Sold → <strong>Sign_Confirm</strong>.<br>
+      Portal: auto-announcement + <em>Pending Sold Loan Tape</em> uploaded. LocalCEO notified via announcement to complete review and signing offline.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 3</div>
+      <h4>Batch Sold</h4>
+      <p>Maker creates sold ticket → Checker approves → batch status goes to <strong>SOLD</strong>. Finalizes the batch and officially sells it to SPV, triggering downstream settlement and payout allocation.<br>
+      Portal: auto-announcement + <em>Transferred Loan Tape</em> uploaded.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 4</div>
+      <h4>Batch Revoke</h4>
+      <p>Used to withdraw partial/entire batch — typically due to input errors or loan eligibility failure. Only available during <strong>Pending_Sold</strong> or <strong>Sign_Confirm</strong> status.<br>
+      Portal: auto-announcement generated + Pending Sold Loan Tape re-uploaded.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 5</div>
+      <h4>Batch Update</h4>
+      <p>Includes batch modification (editing target OS, cutoff date) or batch discard (cancel before cutoff). Only available up to <strong>T-2h before cutoff time</strong>.<br>
+      Portal: auto-announcement + Pending Sold Loan Tape re-uploaded if applicable.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 6</div>
+      <h4>Clawback</h4>
+      <p>Reclaiming of payouts on underperforming or potentially fraud-risky assets. Two modes: <em>OSP + Accrued Int</em> and <em>Auto Pre-Restructure</em>. System calculates clawback price if cutoff date is in the future and loan is valid.<br>
+      Portal: <em>Repurchased Loan Tape</em> uploaded.</p>
+    </div>
+  </div>
+
+  <h3 id="portal-access">Role-Based Access Control</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Admin</th>
+        <th>CCO Team</th>
+        <th>Local FinOps</th>
+        <th>Legal</th>
+        <th>Investor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Announcements</strong></td>
+        <td>View + Update</td>
+        <td>View</td>
+        <td>View</td>
+        <td>View</td>
+        <td>View</td>
+      </tr>
+      <tr>
+        <td><strong>File Management</strong></td>
+        <td>View / Download + Upload</td>
+        <td>View / Download</td>
+        <td>View / Download</td>
+        <td>View / Download</td>
+        <td>View / Download</td>
+      </tr>
+      <tr>
+        <td><strong>User Management</strong></td>
+        <td>Full access</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Role Management</strong></td>
+        <td>Full access</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Audit Center</strong></td>
+        <td>Full access + Export</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Current Pain Points &amp; Proposed Improvements</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card left" style="background:#fff5f5;border-color:#fecaca">
+      <h3>⚠️ Investor Pain Points</h3>
+      <ul>
+        <li><strong>Limited visibility</strong> — only static PDFs, no interactive data view; investors cannot easily monitor risk or returns</li>
+        <li><strong>Poor UX</strong> — announcements shown as a long unstructured list; important notices (e.g. first batch cutoff) not clearly labeled; inefficient navigation</li>
+      </ul>
+    </div>
+    <div class="compare-card right" style="background:#f0fdf4;border-color:#bbf7d0">
+      <h3>✅ Proposed Improvements</h3>
+      <ul>
+        <li>Build interactive dashboards — introduce an analytical layer</li>
+        <li>Add search and filtering for announcements</li>
+        <li>Introduce clear event labels (e.g. "First Batch Cutoff")</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-card left" style="background:#fff5f5;border-color:#fecaca">
+      <h3>⚠️ Internal Team Pain Points</h3>
+      <ul>
+        <li><strong>Role governance gaps</strong> — no centralized superadmin panel; weak role-permission mapping; inconsistent access control</li>
+        <li><strong>Weak traceability</strong> — limited visibility on who accessed what and when; insufficient change tracking; compliance risk</li>
+      </ul>
+    </div>
+    <div class="compare-card right" style="background:#f0fdf4;border-color:#bbf7d0">
+      <h3>✅ Proposed Improvements</h3>
+      <ul>
+        <li>Superadmin space for centralized role and user management</li>
+        <li>Clear role-permission matrix across all projects</li>
+        <li>Detailed activity logs (user, action, time, module) — exportable</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="portal-roadmap">Future Roadmap: From Document Portal → Investor Experience Platform</h3>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-icon">📄</div>
+      <h3>Phase 1 · Document Portal</h3>
+      <p><strong>Foundation</strong> — Establish transparency.<br>
+      Structured document management, improved announcements with clear labels, basic reporting access, full audit log, superadmin space.</p>
+    </div>
+    <div class="card green">
+      <div class="card-icon">📊</div>
+      <h3>Phase 2 · Data Portal</h3>
+      <p><strong>Visibility</strong> — Enable performance visibility.<br>
+      Portfolio dashboard &amp; KPIs, cashflow visibility, risk indicators. Moving from file repository to insights-driven performance dashboard.</p>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">🏪</div>
+      <h3>Phase 3 · Marketplace</h3>
+      <p><strong>Intelligence</strong> — Empower investment decisions.<br>
+      Investment marketplace, deal comparison, tranche browsing and filtering. Transforming transparency into actionable opportunity.</p>
+    </div>
+  </div>
+
+  <div class="callout key">
+    <strong>Design principle:</strong>
+    "Transparency is the foundation of investor confidence." — Internal platforms run the engine; the Investor Portal reveals the output. The portal's evolution mirrors the maturity of the ABS business itself.
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       PART 3 — DAILY OPS
+  ══════════════════════════════════════════════ -->
+
+  <div class="section-header" id="ops-overview">
+    <div class="num">3</div>
+    <div>
+      <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Part 3 — Daily Operations</div>
+      <h2 style="margin:0">Portfolio Management &amp; Daily Operations</h2>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>Scale:</strong> Monee currently runs <strong>16 live ABS/ABL projects across 4 markets</strong> (TH, MY, ID, BR) — each with its own eligibility criteria, operation flow model, collection schedule, investor reporting cadence, and legal structure. Manual processes cannot handle this scale; the Funding System and robust SOPs are critical.
+  </div>
+
+  <p>After a deal is live, every ABS project runs through three distinct operational phases. The Funding Team owns all three.</p>
+
+  <h3>Phase 1: Initial Portfolio Selling (One-Time at Deal Close)</h3>
+
+  <div class="flow">
+    <div class="flow-item light">① Set Cutoff Date &amp;<br>Define Target OS</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item light">② Apply EC Rules,<br>Generate Loan Tape</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item light">③ Legal Sign-Off,<br>SPV Accepts Portfolio</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item accent">④ SPV Transfers Funds<br>to Monee 💰</div>
+  </div>
+
+  <p>The deal launches with a one-time "initial cut" — a defined pool of eligible receivables is legally transferred to the SPV, and the SPV pays Monee the purchase price. This is the foundation of the entire deal.</p>
+
+  <h3>Phase 2: Revolving Period (Ongoing — e.g. 2 Years)</h3>
+
+  <p>During the revolving period, Monee continuously sells new receivables to the SPV to replenish the portfolio. Each cycle repeats the same four-step workflow:</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-label">Step 1</div>
+      <h4>Periodic Collection + Servicer Reporting</h4>
+      <p>Monee collects repayments from borrowers and submits a servicer report to the SPV/Trustee detailing portfolio performance.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Step 2</div>
+      <h4>Revolving Additional Receivable Sale</h4>
+      <p>New eligible loans selected and Loan Tape submitted. SPV issues an Acknowledged Sales Notice confirming acceptance of new receivables.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Step 3</div>
+      <h4>Collection Deposit / Set-Off</h4>
+      <p>Collections reconciled and deposited to SPV. Net or gross transfer depending on the Ops Flow model in use for this project.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Step 4</div>
+      <h4>Revolving Batch Sale Completion</h4>
+      <p>SPV transfers purchase price to Monee. Batch confirmed sold. Cycle complete — repeat until revolving period ends.</p>
+    </div>
+  </div>
+
+  <div class="callout key">
+    <strong>Monthly Interest Payment Date — Waterfall Distribution:</strong>
+    On each designated payment date, the SPV distributes collected cash strictly following the waterfall: ① Transaction costs &amp; Trustee fees → ② Servicer fee (Monee) → ③ Senior Note interest &amp; scheduled principal → ④ Junior Note interest &amp; scheduled principal → ⑤ Residual/excess spread to Junior noteholder.
+  </div>
+
+  <h3 id="ops-flow-models">Ops Flow Models</h3>
+
+  <p>Different projects use different operational flow models depending on capital efficiency requirements and funder agreement:</p>
+
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Collection Transfer</th><th>Replenishment Frequency</th><th>Transfer Mode</th><th>Capital Efficiency</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ops Flow A — ABS</strong></td>
+        <td>3–4× / month</td>
+        <td>2–4× / month</td>
+        <td>Non-Net</td>
+        <td>Standard</td>
+      </tr>
+      <tr>
+        <td><strong>Ops Flow B — ABS Net</strong></td>
+        <td>4× / month</td>
+        <td>4× / month</td>
+        <td>Net</td>
+        <td><strong style="color:var(--green)">100%</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Ops Flow C — ABL</strong></td>
+        <td>2× / month</td>
+        <td>1–2× / month</td>
+        <td>Non-Net</td>
+        <td>90–95%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Phase 3: Amortization / Wind-Down (After Revolving Period Ends)</h3>
+
+  <p>Once the revolving period ends, no new receivables are added. All borrower repayments flow through to investors per the amortization schedule:</p>
+
+  <div class="card-grid" style="grid-template-columns:1fr 1fr">
+    <div class="card blue">
+      <h3>What Happens</h3>
+      <ul style="padding-left:18px;font-size:14px">
+        <li>Revolving period closes — no new batches submitted to SPV</li>
+        <li>Existing pool continues generating repayments each month</li>
+        <li>SPV distributes repayments per waterfall — Senior first, then Junior</li>
+        <li>Pool gradually shrinks until all notes fully repaid and deal closes</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3>Funding Team Role</h3>
+      <ul style="padding-left:18px;font-size:14px">
+        <li>Continue servicer reporting each period per transaction documents</li>
+        <li>Confirm collection transfers to SPV on schedule</li>
+        <li>Monitor portfolio KPIs — trigger breaches can accelerate payments even in wind-down</li>
+        <li>Handle clawback or repurchase obligations if assets breach representations</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="ec-pc">Eligibility Criteria (EC) &amp; Portfolio Criteria (PC)</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>📋 Eligibility Criteria (EC)</h3>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">Static, <strong>binary rules</strong> — a loan either qualifies or it doesn't. Defined in transaction documents. System auto-applies at every portfolio cutoff.</p>
+      <h4 style="font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--navy);margin-bottom:6px">User-Level</h4>
+      <ul style="font-size:13px;padding-left:16px;margin-bottom:12px">
+        <li>Thai Citizen</li>
+        <li>Max DPD &lt; 30 (last 6 months)</li>
+        <li>SPL Month Age ≥ 12</li>
+        <li>Current DPD ≤ 7</li>
+        <li>Total OS ≤ THB 200k</li>
+        <li>Never restructured</li>
+      </ul>
+      <h4 style="font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--navy);margin-bottom:6px">Loan-Level</h4>
+      <ul style="font-size:13px;padding-left:16px;margin-bottom:12px">
+        <li>Tenure 1–12 months</li>
+        <li>Loan DPD ≤ 7</li>
+        <li>Interest &gt; 0</li>
+        <li>Disburse ≤ THB 150k</li>
+        <li>Marketplace channel only</li>
+        <li>Not restructured</li>
+      </ul>
+      <h4 style="font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--navy);margin-bottom:6px">User + Loan Combined</h4>
+      <ul style="font-size:13px;padding-left:16px">
+        <li>Cleared Loan ≥ 1, OR</li>
+        <li>First loan with ≥ 1 instalment repaid</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h3>📊 Portfolio Criteria (PC)</h3>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px"><strong>Dynamic metrics</strong> for the portfolio as a whole — ensuring it remains diversified, low-risk, and yield-sufficient throughout the revolving period.</p>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0"></span><strong style="font-size:13px">Concentration Limits</strong></div>
+        <p style="font-size:13px;color:var(--text-light);padding-left:18px">Avg disbursement ≤ THB 1,200 · Avg credit limit ≤ THB 60k · Top 500 users' OS ≤ 3.8% — prevents over-concentration in a few borrowers</p>
+      </div>
+      <div style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0"></span><strong style="font-size:13px">Risk Limit</strong></div>
+        <p style="font-size:13px;color:var(--text-light);padding-left:18px">Weighted User Historical Max DPD ≤ 3 — ensures portfolio quality remains conservative on average</p>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--yellow);flex-shrink:0"></span><strong style="font-size:13px">Liquidity &amp; Yield</strong></div>
+        <p style="font-size:13px;color:var(--text-light);padding-left:18px">Weighted Avg Remaining Tenure &lt; 8.5M (first 6M), 8M thereafter · Portfolio EIR ≥ 14.7% at start — ensures sufficient yield to cover investor returns and excess spread</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="monitoring-triggers">Post-Issuance Monitoring Triggers</h3>
+
+  <div class="callout warn">
+    <strong>⚠️ Early Amortization:</strong>
+    If any key parameter is breached, the deal enters <strong>early amortization</strong> — the revolving period stops immediately. No new assets can be added. All incoming collections must be used to repay investors. This protects investors but is extremely costly for Monee (forced premature return of capital). This is why the Funding Team monitors these KPIs daily.
+  </div>
+
+  <div class="card-grid">
+    <div class="card red"><div class="card-icon">📉</div><h3>Rollover Default Rate</h3><p>% of loans rolling into the next DPD bucket — key portfolio deterioration signal.</p></div>
+    <div class="card red"><div class="card-icon">📊</div><h3>DPD Bucket Distribution</h3><p>Distribution of loans across DPD 0/7/30/60/90+ buckets — tracks credit quality migration.</p></div>
+    <div class="card orange"><div class="card-icon">⏱️</div><h3>Weighted Avg Remaining Tenure</h3><p>Must stay within PC limits — ensures portfolio duration stays within agreed parameters.</p></div>
+    <div class="card orange"><div class="card-icon">💰</div><h3>Rollover Collection Rate</h3><p>% of scheduled repayments actually collected — directly impacts cash available for the waterfall.</p></div>
+    <div class="card yellow"><div class="card-icon">📈</div><h3>Weighted Avg Portfolio Yield</h3><p>Portfolio EIR must stay above minimum threshold to generate sufficient excess spread for Monee.</p></div>
+    <div class="card yellow"><div class="card-icon">🛡️</div><h3>Asset Cover Ratio</h3><p>Overcollateralization — total receivables outstanding must exceed total notes outstanding. Provides investor protection buffer.</p></div>
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       PART 4 — RISK & REWARD
+  ══════════════════════════════════════════════ -->
+
+  <div class="section-header" id="biz-risk-reward">
+    <div class="num">4</div>
+    <div>
+      <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Part 4 — Risk & Reward</div>
+      <h2 style="margin:0">Business Context: Risk and Reward</h2>
+    </div>
+  </div>
+
+  <h3>Business Level</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>✅ Rewards</h3>
+      <ul>
+        <li>Larger deal size, scalable capital access — bundle asset pools for large-scale financing</li>
+        <li>Flexible, project-based deal structures — reusable, faster rollout across batches</li>
+        <li>More sustainable investor participation — standardized terms across multiple batches</li>
+        <li>More diversified funding sources — access to broader range of institutional investors</li>
+      </ul>
+    </div>
+    <div class="compare-card right" style="background:#fff5f5;border-color:#fecaca">
+      <h3>⚠️ Risks</h3>
+      <ul>
+        <li>Asset quality varies across originators — need strong eligibility screening mechanisms</li>
+        <li>Regulatory complexity — different markets have different ABS approval requirements</li>
+        <li>Dependency on Originator's servicer capability — operational risk if servicing fails</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>System Design Level: Bringing ABS from Offline to Digital</h3>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>✅ Rewards</h3>
+      <ul>
+        <li>Centralized asset data &amp; lifecycle traceability → ensures clean asset inputs and full audit trails</li>
+        <li>Stronger internal controls vs. manual processing → consistent rules, fewer errors, better compliance</li>
+        <li>Bridge info flow &amp; money flow on one platform → align disclosure and capital flow</li>
+        <li>Support project-based, multi-round issuance → flexible and sustainable beyond a single deal</li>
+      </ul>
+    </div>
+    <div class="compare-card right" style="background:#fff5f5;border-color:#fecaca">
+      <h3>⚠️ Risks</h3>
+      <ul>
+        <li>Initial misalignment with offline operations → requires business adaptation to structured flows</li>
+        <li>Trade-off: system standardization vs. human flexibility → some manual exceptions may conflict</li>
+        <li>Handling large-scale data under performance constraints → millions of records within strict SLA</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <strong>Q: Are we "giving good assets to investors and keeping bad ones for ourselves"?</strong>
+    No — it's about using the more stable, better-performing portion of the asset pool to attract external capital at a lower cost, while the platform retains the tail-end risk as credit support. This is a win-win structure, not selective adverse selection.
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       PART 4 — PRODUCTIZATION
+  ══════════════════════════════════════════════ -->
+
+  <div class="section-header" id="why-productize">
+    <div class="num">5</div>
+    <div>
+      <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">Part 5 — Productization Roadmap</div>
+      <h2 style="margin:0">ABS Productization Strategy</h2>
+    </div>
+  </div>
+
+  <h3>Why Productize ABS?</h3>
+
+  <div class="callout info">
+    ABS is a <strong>standardized financial product</strong> that needs productization — a cross-funder, cross-region strategy. But at the beginning, we took approaches from the channeling model, which was highly customized per funder. <strong>Heavy customization limits scalability.</strong> As ABS volumes grow, standardization becomes essential.
+  </div>
+
+  <h3>The Inflection Point: Why Now</h3>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-label">Phase 1 · 2022–2024</div>
+      <h4>First ABS Projects Launched</h4>
+      <p>Workarounds, manual-heavy operations. Built foundational experience but relied on ad-hoc processes.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Phase 2 · Now · 2025</div>
+      <h4>First ABS Reaches Key Milestones</h4>
+      <p>Redemption, clawback, refinancing — first batch of ABS completing its 2-year lifecycle. Manual complexity becomes unscalable. <strong>Now is the point to translate experience into system standards.</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Phase 3 · 2026+</div>
+      <h4>Rapid Scale Expansion</h4>
+      <p>13 funders in pipeline, 1,046M+ USD (avg $130.75M per funder). Vs. current 6 funders, $440M. Productization is a prerequisite for this scale.</p>
+    </div>
+  </div>
+
+  <h3 id="where-productize">Where to Productize</h3>
+
+  <table>
+    <thead>
+      <tr><th>Area</th><th>Approach</th><th>Direction</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ABS Lifecycle Core</strong><br>(Originator → SPV)</td>
+        <td><span class="pill blue">Full Standardization</span></td>
+        <td>Standardize the flow, automate the process, scale across funders</td>
+      </tr>
+      <tr>
+        <td><strong>ABS Entity Config</strong><br>(SPV → Funder)</td>
+        <td><span class="pill orange">Configurable, limited customization</span></td>
+        <td>Funder-specific parameters kept configurable within a standard framework</td>
+      </tr>
+      <tr>
+        <td><strong>Asset Sale — Batch</strong></td>
+        <td><span class="pill blue">Automate</span></td>
+        <td>Before: Speed up via batch auto-creation &amp; selling</td>
+      </tr>
+      <tr>
+        <td><strong>Post Deal Management</strong></td>
+        <td><span class="pill green">Standardize</span></td>
+        <td>During: Standardize collection, clawback, settlement flows</td>
+      </tr>
+      <tr>
+        <td><strong>Reporting</strong></td>
+        <td><span class="pill purple">Transparency</span></td>
+        <td>After: Information transparency via auto-generated reports</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 id="key-deliverables">Key Deliverables &amp; Design Insights</h3>
+
+  <div class="feature-block">
+    <div class="feature-tag">Flagship Deliverable</div>
+    <h3>Report Automation Engine</h3>
+    <p>A configurable, template-driven reporting engine that standardizes how Funding defines, generates, and delivers reports — replacing code-heavy, ad-hoc report development.</p>
+    <ul>
+      <li><strong>Project Management Module</strong> — Standardized list of funder-specific report requests with linked templates; Funder ID ↔ Report ID (1:N) relationship</li>
+      <li><strong>Visual Template Configuration</strong> — Low-code platform to transform complex SQL/Excel-based report building into a UI-driven process; templates stored as version-managed assets</li>
+      <li><strong>Field Selection</strong> — Select fields directly from ADS-wide metadata; freely choose any field across loan, user, fee, and ABS feature layers</li>
+      <li><strong>Condition Builder</strong> — Modify or compute fields using visual condition-based rules; frontend auto-generates SQL logic behind the scenes</li>
+      <li><strong>Flexible Scheduler</strong> — Configure trigger frequency, output file format, and delivery path; reports auto-generated and routed on schedule</li>
+    </ul>
+  </div>
+
+  <div class="feature-block">
+    <div class="feature-tag">Infrastructure Upgrade</div>
+    <h3>Enhanced Cutoff Flow 2.0</h3>
+    <p>A backend infrastructure upgrade that dramatically improves cutoff processing speed and reliability:</p>
+    <ul>
+      <li>Migrated report base tables from <strong>ODS → ADS</strong>, creating cleaner, standardized wide tables</li>
+      <li>ADS wide tables integrate multiple feature layers (User Feature, Loan Feature) for much broader field selection</li>
+      <li>DE now reads Funding's values directly from <strong>DB binlog in real-time</strong>, removing polling dependencies</li>
+      <li>Result: faster, lighter, near-real-time cutoff processing with fewer system dependencies</li>
+    </ul>
+  </div>
+
+  <h4>Other Key Features in Roadmap</h4>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <div class="card-icon">🔧</div>
+      <h3>Funder Onboard Configuration</h3>
+      <p>Configurable setup per funder — from deal setup and asset sale to post-loan management. Reduces manual onboarding time and ensures consistency.</p>
+    </div>
+    <div class="card green">
+      <div class="card-icon">🤖</div>
+      <h3>Batch Auto Creation &amp; Selling</h3>
+      <p>Sync operational plan from offline document → DB → Funding system. Auto-generate &amp; auto-sell batches. Users only review &amp; approve.</p>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">✅</div>
+      <h3>Eligibility Check Automation</h3>
+      <p>Encode eligibility rules into configurable system logic. Auto-check assets during batch creation. Real-time flagging of ineligible assets.</p>
+    </div>
+    <div class="card navy">
+      <div class="card-icon">🔔</div>
+      <h3>Batch Status Tracking &amp; Alerts</h3>
+      <p>Real-time status monitoring. Automated alerts for status transitions, overdue batches, and manual intervention triggers.</p>
+    </div>
+    <div class="card yellow">
+      <div class="card-icon">↩️</div>
+      <h3>Clawback Modularization</h3>
+      <p>Modularize clawback logic into configurable components by funder/project. Auto-trigger clawback events; system executes adjustments automatically.</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">💳</div>
+      <h3>Payment Automation</h3>
+      <p>Auto payment execution triggered only after settlement reconciliation passes. Validates amounts, SLA checks → payment instructions generated automatically. Full audit logs.</p>
+    </div>
+  </div>
+
+  <h3 id="allocation-strategy">Allocation Strategy Proposal: Multi-Agent Optimization</h3>
+
+  <div class="callout warn">
+    <strong>The Core Challenge:</strong>
+    A single loan may simultaneously satisfy eligibility rules of multiple funders. When one funder starts a new batch, it alters the remaining pool for others. Selecting "the best loans for Funder A" may harm B and C's ability to meet their targets. Local optimization is not enough.
+  </div>
+
+  <p>The system evaluates every loan along two dimensions when a funder triggers a new batch:</p>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>Dimension 1: How much does THIS funder want this loan?</h3>
+      <ul>
+        <li>EC buffer (distance from eligibility cutoff)</li>
+        <li>Fit to tenor, risk, and concentration rules</li>
+        <li>Loan performance stability (DPD, Repayment Stability)</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h3>Dimension 2: How much do OTHER funders need this loan?</h3>
+      <ul>
+        <li>Don't occupy loans that B/C more critically need</li>
+        <li>From A's eligible pool, prefer loans: important for A, but not critical for B/C</li>
+        <li>Reserve high-value loans for funders who depend on them most</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="funder-priority">Funder Priority Ranking Model</h3>
+
+  <p>When multiple funders are equally suitable for a loan, the system uses a <strong>Funder Priority Score</strong> to rank them:</p>
+
+  <div class="formula">
+FunderPriorityScore_j =<br>
+  &nbsp;&nbsp;w1 × FundingEfficiency_j   <span style="color:#93c5fd">// cost per dollar of funding</span><br>
+  + w2 × IRR_j                          <span style="color:#93c5fd">// annualized return on transaction cash flows</span><br>
+  + w3 × VolumePotential_j              <span style="color:#93c5fd">// strategic scale opportunity with this funder</span><br>
+<br>
+<span style="color:#6ee7b7">// Weights (w) are adjustable, manually configured to reflect business priorities</span>
+  </div>
+
+  <table>
+    <thead><tr><th>Factor</th><th>What It Measures</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Funding Efficiency</strong></td>
+        <td>All-in funding cost: effective interest rate + upfront fees + ongoing fees + operational costs. Lower = better.</td>
+      </tr>
+      <tr>
+        <td><strong>IRR</strong></td>
+        <td>Annualized return generated from the transaction's cash flows. Captures effective interest rate, historical cost, cost per dollar funded.</td>
+      </tr>
+      <tr>
+        <td><strong>Volume Potential</strong></td>
+        <td>Strategic importance of the funder — how much future business volume they represent to the platform.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <strong>Design principle:</strong>
+    Weights are configurable — Funding team can adjust them to reflect current business priorities (e.g. prioritize lowest cost during tight liquidity, or prioritize volume potential when onboarding a strategic new funder).
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- ══════════════════════════════════════════════
+       APPENDIX
+  ══════════════════════════════════════════════ -->
+
+  <h2 id="faq">FAQ — Common Questions</h2>
+
+  <div class="feature-block">
+    <h3>Q: Are we giving "good assets" to investors and keeping the bad ones?</h3>
+    <p>No. It's about using the more <em>stable, better-performing portion</em> to attract external capital at lower cost, while the platform retains the tail-end risk as credit support. The platform retains the less certain portion as a risk buffer — reflecting both credit support AND a win-win structure. Investors want predictable cash flows (Senior Notes); Monee retains Junior Notes and shares in upside.</p>
+  </div>
+
+  <div class="feature-block">
+    <h3>Q: How does the SPV "take the repayment risk"?</h3>
+    <p>The SPV takes risk not by absorbing it directly, but by <em>structuring, layering, and reserving</em> to contain it:</p>
+    <ul>
+      <li><strong>Legal isolation via True Sale</strong> — receivables are legally transferred; SPV becomes the sole beneficiary (and risk holder) of those cash flows</li>
+      <li><strong>Structured tranching</strong> — Senior Notes get paid first (least risk); Junior Notes take first losses</li>
+      <li><strong>Reserve accounts</strong> — SPV holds cash reserves to absorb short-term shortfalls before they impact Senior Note holders</li>
+    </ul>
+  </div>
+
+  <div class="feature-block">
+    <h3>Q: What's the difference between Initial Cutoff and Following Cutoff?</h3>
+    <table>
+      <thead><tr><th></th><th>Initial Cutoff</th><th>Following Cutoffs</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Purpose</strong></td>
+          <td>True sale &amp; deal inception — first legal transfer of receivables to SPV</td>
+          <td>Pool replenishment &amp; principal maintenance</td>
+        </tr>
+        <tr>
+          <td><strong>What it establishes</strong></td>
+          <td>Initial asset pool, initial outstanding principal (N), basis for investor funding &amp; risk</td>
+          <td>Adds new receivables to replace repaid ones during the revolving period</td>
+        </tr>
+        <tr>
+          <td><strong>Legal weight</strong></td>
+          <td>Highest — establishes transaction at inception</td>
+          <td>Operational — supports ongoing pool maintenance</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="feature-block">
+    <h3>Q: Why do certain projects delay from original cutoff plans?</h3>
+    <p>ABS projects go through a long pre-issuance lifecycle before system cutoff. Delays commonly occur at:</p>
+    <ul>
+      <li><strong>Due Diligence</strong> — legal/regulatory compliance review, credit enhancement analysis</li>
+      <li><strong>Structuring &amp; BRD</strong> — structuring decisions affect term sheet and then system requirements</li>
+      <li><strong>Agreement &amp; Regulatory Approval</strong> — timelines vary by jurisdiction</li>
+      <li><strong>System Setup</strong> — Funding system development, DE data &amp; portfolio selection, loan tape, reports</li>
+    </ul>
+  </div>
+
+  <h2 id="lifecycle">Appendix: ABS Project Lifecycle Overview</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-label">Stage 1</div>
+      <h4>Project Initiation</h4>
+      <p>Feasibility analysis (economic viability, risk, suitability for ABS). Preparation of indicative term sheet. Initial discussions on transaction structure, asset pool, key stakeholders.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 2</div>
+      <h4>Due Diligence &amp; Term Sheet</h4>
+      <p>Legal and regulatory compliance review. Credit enhancement and risk mitigation analysis. Group &amp; company overview, acquisition strategy &amp; metrics.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 3</div>
+      <h4>Structuring &amp; Business Requirement Documentation</h4>
+      <p>Raise BRD → Prepare PRD. Define transaction structure, pricing, eligibility criteria. Funding team begins system requirement definition.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 4</div>
+      <h4>Agreement &amp; Regulatory Approval</h4>
+      <p>Legal documentation finalized. Regulatory filings submitted. Rating agency engagement (if required). System and process setup begins.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 5</div>
+      <h4>Pre-Issuance</h4>
+      <p>Investor roadshows (public projects). Funding system development, DE data &amp; portfolio selection, loan tape, reports, pipeline development. ABS management workflow development.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 6</div>
+      <h4>Issuance (Launch)</h4>
+      <p>Initial Cutoff — true sale of receivables to SPV. Senior Notes sold to investors. Funds flow back to Monee as consideration. ABS transaction is live.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 7</div>
+      <h4>Post-Closing Management</h4>
+      <p>Ongoing pool replenishment via following cutoffs. Collection &amp; reconciliation. Reporting to investors. Clawback/repurchase handling. System manages full servicer lifecycle.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-label">Stage 8</div>
+      <h4>Final Maturity &amp; Wind-Down</h4>
+      <p>All receivables collected and distributed. Senior Notes fully repaid. Junior Notes settled. SPV wound down. Batch status moved to Final.</p>
+    </div>
+  </div>
+
+  <h2 id="glossary">Glossary</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0">
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">ABS</div>
+      <p style="font-size:14px;margin:0">Asset-Backed Securities — fixed-income securities backed by a pool of loan receivables, issued by an SPV to capital markets investors.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">ABL</div>
+      <p style="font-size:14px;margin:0">Asset-Based Lending — a corporate loan where a bank lends against the value of pledged/assigned loan receivables. No securitization required.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">SPV</div>
+      <p style="font-size:14px;margin:0">Special Purpose Vehicle — a bankruptcy-remote shell company created solely to hold loan receivables and issue ABS. Has no other business activities.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">True Sale</div>
+      <p style="font-size:14px;margin:0">Legal transfer of receivable ownership from Monee to SPV. Removes assets from Monee's balance sheet. Critical for off-balance-sheet ABS treatment.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Originator</div>
+      <p style="font-size:14px;margin:0">The entity (Monee) that originally created and owns the loan receivables being securitized.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Servicer</div>
+      <p style="font-size:14px;margin:0">The entity (also Monee) that manages ongoing collection, customer service, and portfolio reporting after the true sale.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Tranche</div>
+      <p style="font-size:14px;margin:0">A slice of the ABS structure with a specific risk/return profile. Senior (AAA) = lowest risk; Junior = higher risk and higher yield.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Repayment Waterfall</div>
+      <p style="font-size:14px;margin:0">Contractual priority order for distributing SPV cash flows: fees → senior interest/principal → junior → residual excess spread.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Excess Spread</div>
+      <p style="font-size:14px;margin:0">Yield surplus after paying all transaction costs and senior note coupons. Captured by Junior Note holders (Monee). Monee's upside in a well-performing pool.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Early Amortization ⚠️</div>
+      <p style="font-size:14px;margin:0">Triggered by a covenant breach — revolving stops immediately, all collections used to repay investors early. Monee's biggest operational risk event.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Loan Tape</div>
+      <p style="font-size:14px;margin:0">A detailed data file listing all loans in the asset pool with their attributes (balance, DPD, tenure, yield, etc.). Submitted to SPV at each cutoff.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">AUP Audit</div>
+      <p style="font-size:14px;margin:0">Agreed-Upon Procedures audit — independent external auditor validates Monee's compliance with transaction documents on a periodic basis.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Overcollateralization</div>
+      <p style="font-size:14px;margin:0">Asset Cover Ratio &gt; 100% — more receivables outstanding than notes outstanding. Provides a credit enhancement buffer protecting senior investors.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Revolving Period</div>
+      <p style="font-size:14px;margin:0">The phase (e.g. 2 years) during which SPV buys new receivables to maintain pool size. Followed by the amortization/wind-down period.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">DPD</div>
+      <p style="font-size:14px;margin:0">Days Past Due — number of days a loan payment is overdue. Key credit quality indicator. Threshold limits defined in eligibility criteria (EC).</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">EIR</div>
+      <p style="font-size:14px;margin:0">Effective Interest Rate — actual annualized yield on the loan portfolio, accounting for fees and timing. Key portfolio yield metric tracked against PC thresholds.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">EC (Eligibility Criteria)</div>
+      <p style="font-size:14px;margin:0">Static binary rules that determine whether an individual loan qualifies for inclusion in the ABS pool. Auto-applied by system at every cutoff.</p>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">PC (Portfolio Criteria)</div>
+      <p style="font-size:14px;margin:0">Dynamic metrics applied to the portfolio as a whole — concentration, risk, liquidity, and yield limits that must be maintained throughout the revolving period.</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:48px;padding:24px;background:var(--light-gray);border-radius:12px;text-align:center;color:var(--gray);font-size:13px">
+    <strong>Monee Funding Team</strong> · ABS Learning Series 2025 · Compiled by Zikky<br>
+    <span style="opacity:0.7">Sources: ABS from Concept to Execution (Jun 2025) · ABS Productization Roadmap Design (Sep 2025) · Investor Portal Introduction · Regional Funding ABS &amp; ABL Onboarding (2026)</span>
+  </div>
+
+</main>
+</div>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Active nav link
+  const sections = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
