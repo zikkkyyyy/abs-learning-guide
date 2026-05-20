@@ -84,6 +84,10 @@
   }
   nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
   nav a.active { background: var(--blue); color: #fff; }
+  nav a.l2 { padding-left: 24px; font-size: 12px; color: rgba(255,255,255,0.55); }
+  nav a.l2::before { content: '·'; margin-right: 6px; }
+  nav a.l2:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  nav a.l2.active { background: rgba(26,95,168,0.7); color: #fff; }
 
   main {
     flex: 1;
@@ -386,8 +390,8 @@
     <a href="#allocation-logic">Allocation Logic</a>
     <a href="#batch-lifecycle-portal">Batch Lifecycle</a>
     <a href="#investor-portal">Investor Portal</a>
-    <a href="#portal-modules">Core Modules</a>
-    <a href="#portal-access">Access Control</a>
+    <a href="#portal-modules" class="l2">Core Modules</a>
+    <a href="#portal-access" class="l2">Access Control</a>
   </div>
   <div class="nav-section">
     <div class="nav-section-label">Part 3 — Daily Ops</div>
