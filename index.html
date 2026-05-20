@@ -959,8 +959,59 @@
     The old model managed users and roles <strong>per project</strong> — every new project meant re-inviting the same stakeholders. As the ABS pipeline scales to 13+ funders, this doesn't work. The Phase 1 revamp introduces <strong>centralized, country-level</strong> user management, decoupled from individual projects.
   </div>
 
-  <h4>Architecture: Super Admin Space</h4>
-  <p>A centralized management layer accessible via side navigation in the Investor Portal Homepage. All configurations are <strong>region-based</strong> — Super Admin must select a region (TH or MY) before managing users and roles.</p>
+  <h4>Architecture: Two-Layer System</h4>
+
+  <!-- Two-layer architecture diagram -->
+  <div style="margin:20px 0;padding:24px;background:#f8fafc;border-radius:12px;border:1px solid var(--border)">
+    <!-- Top: Investor Portal label -->
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="display:inline-block;background:var(--navy);color:#fff;padding:8px 24px;border-radius:8px;font-size:13px;font-weight:700">Investor Portal</div>
+    </div>
+    <!-- Two columns -->
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:center">
+      <!-- Left: Global Mgmt -->
+      <div style="background:#fef9e7;border:2px solid #f0c040;border-radius:12px;padding:20px">
+        <div style="font-size:13px;font-weight:800;color:#92400e;margin-bottom:4px">Global Mgmt</div>
+        <div style="font-size:11px;color:#b45309;margin-bottom:16px;font-weight:600">Super Admin Space ✦ New</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:#fff;border:1px solid #fbbf24;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#78350f">User Management</div>
+          <div style="background:#fff;border:1px solid #fbbf24;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#78350f">Role Management</div>
+          <div style="background:#fff;border:1px solid #fbbf24;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#78350f">File Access</div>
+          <div style="background:#fff;border:1px dashed #fbbf24;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;text-align:center">…</div>
+        </div>
+      </div>
+      <!-- Middle: arrows -->
+      <div style="display:flex;flex-direction:column;gap:16px;padding:0 16px;align-items:center">
+        <div style="display:flex;align-items:center;gap:6px;white-space:nowrap">
+          <div style="font-size:11px;color:var(--gray);font-style:italic">Define Roles</div>
+          <div style="color:var(--blue);font-size:16px">→</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;white-space:nowrap">
+          <div style="font-size:11px;color:var(--gray);font-style:italic">Access Control</div>
+          <div style="color:var(--blue);font-size:16px">→</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;white-space:nowrap">
+          <div style="font-size:11px;color:var(--gray);font-style:italic">File Visibility</div>
+          <div style="color:var(--blue);font-size:16px">→</div>
+        </div>
+      </div>
+      <!-- Right: Funder Base -->
+      <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:12px;padding:20px">
+        <div style="font-size:13px;font-weight:800;color:#1e3a8a;margin-bottom:4px">Funder Base Mgmt</div>
+        <div style="font-size:11px;color:#3b82f6;margin-bottom:16px;font-weight:600">Normal Users</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:#fff;border:1px solid #93c5fd;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1e3a8a">Project Dashboard</div>
+          <div style="background:#fff;border:1px solid #93c5fd;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1e3a8a">Announcement &amp; Audit Center</div>
+          <div style="background:#fff;border:1px solid #93c5fd;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1e3a8a">File Page</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout key">
+    <strong>✦ Super Admin is now a global role, not per-project.</strong>
+    Super Admin Space sits above all projects — manage users &amp; roles once at region level (TH / MY), and it applies across every project automatically. No more re-configuring per project.
+  </div>
 
   <div class="compare-grid">
     <div class="compare-card left">
@@ -978,7 +1029,7 @@
         <li><strong>Country-level</strong> user management — onboard once, assign to multiple projects</li>
         <li>Project-based permission assignment within a central registry</li>
         <li>Role-based access control — same role = same permissions across all projects in region</li>
-        <li>Super Admin space with full governance visibility</li>
+        <li><strong>Super Admin = global role</strong> with full access to all existing &amp; new projects automatically</li>
       </ul>
     </div>
   </div>
@@ -1021,32 +1072,65 @@
   </table>
 
   <h4>Role Management — Permission Structure</h4>
-  <p>Roles are defined at <strong>region level</strong> and applied consistently across all projects in that region. Higher permissions automatically inherit lower ones (Edit ⊃ View).</p>
+
+  <div class="callout key">
+    <strong>✦ Permissions consolidated: many granular actions → just View &amp; Edit.</strong>
+    Old model had 7+ separate permission flags per module (View, Download, Create, Rename, Edit, Upload, Delete, Export…). New model collapses everything into two tiers — <strong>Edit automatically inherits View</strong>.
+  </div>
+
+  <!-- Permission before/after -->
+  <div style="margin:16px 0;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="border:1px solid var(--border);border-radius:10px;padding:16px">
+      <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">Before — Many granular flags</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">View</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Download</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Create</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Rename</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Edit</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Upload</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Delete</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Export</span>
+        <span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:4px;font-size:12px;text-decoration:line-through">Manage</span>
+      </div>
+    </div>
+    <div style="border:2px solid var(--blue);border-radius:10px;padding:16px;background:var(--light-blue)">
+      <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">After — 2 tiers only ✦</div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div style="background:#fff;border:2px solid var(--blue);border-radius:8px;padding:8px 20px;text-align:center">
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">View</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px">read-only access</div>
+        </div>
+        <div style="color:var(--gray);font-size:18px">⊂</div>
+        <div style="background:var(--navy);border-radius:8px;padding:8px 20px;text-align:center">
+          <div style="font-size:13px;font-weight:700;color:#fff">Edit</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">includes View</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Roles are defined at <strong>region level</strong> and applied consistently across all projects in that region.</p>
 
   <table>
     <thead>
-      <tr><th>Module</th><th>View</th><th>Edit</th></tr>
+      <tr><th>Module</th><th>View</th><th>Edit (inherits View)</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>Announcements</strong></td>
         <td>View announcements</td>
-        <td>View + Create announcement</td>
+        <td>+ Create announcement</td>
       </tr>
       <tr>
         <td><strong>Audit Center</strong></td>
-        <td>View audit log + Export</td>
+        <td>View log + Export</td>
         <td>—</td>
       </tr>
       <tr>
-        <td><strong>File Management (Functional)</strong></td>
-        <td>View file list + Download</td>
-        <td>View + Create folder, Rename, Edit settings, Delete, Upload</td>
-      </tr>
-      <tr>
-        <td><strong>File Management (Folder/File Access)</strong></td>
-        <td>View file list + Download</td>
-        <td>View + Create folder, Rename, Edit settings, Delete, Upload, Recover</td>
+        <td><strong>File Management</strong></td>
+        <td>View list + Download</td>
+        <td>+ Create folder, Rename, Edit settings, Upload, Delete, Recover</td>
       </tr>
     </tbody>
   </table>
