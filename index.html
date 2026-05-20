@@ -355,6 +355,33 @@
   }
   #back-top.visible { opacity: 1; }
 
+  .lang-switcher {
+    display: flex;
+    gap: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 3px;
+    margin-top: 14px;
+    width: fit-content;
+  }
+  .lang-btn {
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .lang-btn:hover { color: #fff; }
+  .lang-btn.lang-active {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+  }
+
   @media (max-width: 768px) {
     nav { display: none; }
     main { padding: 24px 20px 80px; }
@@ -373,6 +400,10 @@
   <div class="logo">
     <div class="badge">Monee Funding</div>
     <h2>ABS: From Concept to Productization</h2>
+    <div class="lang-switcher">
+      <button class="lang-btn lang-active" id="lang-en" onclick="applyLang('en')">EN</button>
+      <button class="lang-btn" id="lang-zh" onclick="applyLang('zh')">中文</button>
+    </div>
   </div>
   <div class="nav-section">
     <div class="nav-section-label">Part 1 — Concepts</div>
@@ -1677,14 +1708,143 @@ FunderPriorityScore_j =<br>
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-  // Scroll progress bar
+  // ── Language switcher ──
+  const zh = {
+    // Nav section labels
+    'Part 1 — Concepts':       'Part 1 — 概念基础',
+    'Part 2 — System':         'Part 2 — 系统建设',
+    'Part 3 — Daily Ops':      'Part 3 — 日常运营',
+    'Part 5 — Productization': 'Part 5 — 产品化路线',
+    'Appendix':                '附录',
+
+    // Nav links
+    'What is ABS?':          'ABS 是什么？',
+    'Key Parties':           '核心参与方',
+    'How ABS Works':         'ABS 运作原理',
+    'Tranche & Waterfall':   '分档结构与还款瀑布',
+    'ABS vs ABL':            'ABS vs ABL',
+    'How Monee Benefits':    'Monee 如何受益',
+    'System Overview':       '系统概览',
+    'Key Features':          '核心功能亮点',
+    'Allocation Logic':      '资产分配逻辑',
+    'Batch Lifecycle':       '批次生命周期',
+    'Investor Portal':       '投资人门户',
+    'Core Modules':          '核心模块',
+    'Access Control':        '用户与角色管理',
+    'Portfolio Lifecycle':   '组合运营生命周期',
+    'Ops Flow Models':       '运营流模型',
+    'EC & PC Rules':         'EC 与 PC 规则',
+    'Monitoring Triggers':   '监控触发机制',
+    'Why Productize':        '为何产品化',
+    'Where to Productize':   '产品化聚焦点',
+    'Key Deliverables':      '核心交付物',
+    'Allocation Strategy':   '分配优化策略',
+    'Funder Priority Model': '资金方优先级模型',
+    'FAQ':                   '常见问题',
+    'Project Lifecycle':     '项目生命周期',
+    'Glossary':              '术语表',
+
+    // Hero
+    'ABS: From Concept to Productization': 'ABS：从概念到产品化',
+
+    // Section header labels (small chips)
+    'Part 1 — Concepts':          'Part 1 — 概念基础',
+    'Part 2 — System':            'Part 2 — 系统建设',
+    'Part 2 — System':            'Part 2 — 系统建设',
+    'Part 3 — Daily Operations':  'Part 3 — 日常运营',
+    'Part 5 — Productization Roadmap': 'Part 5 — 产品化路线',
+
+    // H2 section titles
+    'What is ABS?':                                    'ABS 是什么？',
+    'How We Built the Funding System to Support ABS':  '如何构建 Funding 系统支持 ABS',
+    'Investor Portal — External Disclosure Layer':     '投资人门户 — 外部披露层',
+    'User & Role Management — Phase 1 Revamp':         '用户与角色管理 — Phase 1 改版',
+    'Portfolio Management & Daily Operations':         '组合管理与日常运营',
+    'ABS Productization Strategy':                     'ABS 产品化策略',
+
+    // H3 headings
+    'Key Parties in an ABS Transaction':                          '核心参与方',
+    'SPV Deep Dive: Why Not Raise Money Directly?':               'SPV 深度解析：为何不直接融资？',
+    'How ABS Works: Money Flow':                                  'ABS 运作原理：资金流向',
+    'Tranche Structure & Repayment Waterfall':                    '分档结构与还款瀑布',
+    'ABS vs ABL — What\'s the Difference?':                       'ABS vs ABL — 区别对比',
+    'How Monee Benefits from ABS':                                'Monee 如何从 ABS 获益',
+    'ABS System in Layers':                                       'ABS 系统三层架构',
+    'Key Feature Highlights':                                     '核心功能亮点',
+    'Asset Pool Management':                                      '资产池管理',
+    'Asset Allocation — The 4-Table Schema':                      '资产分配 — 四表方案',
+    'Asset Pricing Model':                                        '资产定价模型',
+    'Why Does ABS Need an Investor Portal?':                      '为什么 ABS 需要投资人门户？',
+    'The Vault and the Window':                                   '金库与窗口',
+    'Funding Admin vs Investor Portal':                           'Funding Admin vs 投资人门户',
+    'Core Modules':                                               '核心模块',
+    'Batch Lifecycle in the Investor Portal':                     '投资人门户：批次生命周期',
+    'Current Pain Points & Proposed Improvements':                '现有痛点与改进方向',
+    'Phase 1: Initial Portfolio Selling (One-Time at Deal Close)':'阶段一：初始组合出售',
+    'Phase 2: Revolving Period (Ongoing — e.g. 2 Years)':         '阶段二：循环期',
+    'Phase 3: Amortization / Wind-Down (After Revolving Period Ends)': '阶段三：摊还期 / 退出',
+    'Ops Flow Models':                                            '运营流模型',
+    'Eligibility Criteria (EC) & Portfolio Criteria (PC)':        'EC 资格标准 & PC 组合标准',
+    'Post-Issuance Monitoring Triggers':                          '发行后监控触发机制',
+    'Why Productize ABS?':                                        '为什么产品化 ABS？',
+    'The Inflection Point: Why Now':                              '为什么是现在？',
+    'Where to Productize':                                        '产品化聚焦方向',
+    'Key Deliverables & Design Insights':                         '核心交付物与设计洞察',
+    'Allocation Strategy Proposal: Multi-Agent Optimization':     '分配策略：多 Agent 优化',
+    'Funder Priority Ranking Model':                              '资金方优先级排名模型',
+    'FAQ — Common Questions':                                     '常见问题解答',
+    'Appendix: ABS Project Lifecycle Overview':                   '附录：ABS 项目生命周期总览',
+    'Glossary':                                                   '术语表',
+
+    // H4 headings
+    'Why Does ABS Need an Investor Portal?':   '为什么需要投资人门户？',
+    '🌊 The Repayment Waterfall':              '🌊 还款瀑布',
+    'Architecture: Super Admin Space':         '架构：超级管理员空间',
+    'User Structure':                          '用户结构',
+    'User Management — Key Features':          '用户管理 — 核心功能',
+    'Role Management — Permission Structure':  '角色管理 — 权限结构',
+    'Business Level':                          '业务层面',
+    'What Happens':                            '发生了什么',
+    'Funding Team Role':                       'Funding Team 职责',
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  function applyLang(lang) {
+    const targets = document.querySelectorAll(
+      'nav a, .nav-section-label, h2, h3, h4, .logo h2'
+    );
+    targets.forEach(el => {
+      // Skip elements with significant child HTML (buttons, spans with styles)
+      if (el.children.length > 0 && el.tagName !== 'A') return;
+      const orig = el.getAttribute('data-orig') ?? el.textContent.trim();
+      if (!el.hasAttribute('data-orig')) el.setAttribute('data-orig', orig);
+      if (lang === 'zh' && zh[orig]) {
+        el.textContent = zh[orig];
+      } else {
+        el.textContent = orig;
+      }
+    });
+    document.getElementById('lang-en').classList.toggle('lang-active', lang === 'en');
+    document.getElementById('lang-zh').classList.toggle('lang-active', lang === 'zh');
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+  }
+
+  // Apply saved preference on load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (currentLang === 'zh') applyLang('zh');
+    else document.getElementById('lang-en').classList.add('lang-active');
+  });
+
+  // ── Scroll progress bar ──
   window.addEventListener('scroll', () => {
     const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
     document.getElementById('progress').style.width = pct + '%';
     document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
   });
 
-  // Active nav link
+  // ── Active nav link ──
   const sections = document.querySelectorAll('[id]');
   const links = document.querySelectorAll('nav a');
   const observer = new IntersectionObserver(entries => {
