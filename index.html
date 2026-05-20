@@ -921,62 +921,117 @@
     </div>
   </div>
 
-  <h3 id="portal-access">Role-Based Access Control</h3>
+  <h3 id="portal-access">User &amp; Role Management — Phase 1 Revamp</h3>
+
+  <div class="callout warn">
+    <strong>Why the revamp?</strong>
+    The old model managed users and roles <strong>per project</strong> — every new project meant re-inviting the same stakeholders. As the ABS pipeline scales to 13+ funders, this doesn't work. The Phase 1 revamp introduces <strong>centralized, country-level</strong> user management, decoupled from individual projects.
+  </div>
+
+  <h4>Architecture: Super Admin Space</h4>
+  <p>A centralized management layer accessible via side navigation in the Investor Portal Homepage. All configurations are <strong>region-based</strong> — Super Admin must select a region (TH or MY) before managing users and roles.</p>
+
+  <div class="compare-grid">
+    <div class="compare-card left">
+      <h3>Old Model</h3>
+      <ul>
+        <li>User &amp; role managed per-project</li>
+        <li>Re-invite the same stakeholder every time a new project launches</li>
+        <li>Admin effort grows linearly with project count</li>
+        <li>High risk of access misconfiguration</li>
+      </ul>
+    </div>
+    <div class="compare-card right">
+      <h3>New Model (Phase 1)</h3>
+      <ul>
+        <li><strong>Country-level</strong> user management — onboard once, assign to multiple projects</li>
+        <li>Project-based permission assignment within a central registry</li>
+        <li>Role-based access control — same role = same permissions across all projects in region</li>
+        <li>Super Admin space with full governance visibility</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>User Structure</h4>
+  <div style="background:var(--light-gray);border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.9;margin:16px 0">
+    User<br>
+    &nbsp;└── Project Access (multiple projects)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Role (per project)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Functional Permissions <span style="color:var(--gray);font-family:sans-serif;font-size:12px">(inherited from role, read-only)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── File Access <span style="color:var(--gray);font-family:sans-serif;font-size:12px">(inherited from role, read-only)</span>
+  </div>
+
+  <h4>User Management — Key Features</h4>
+  <table>
+    <thead><tr><th>Feature</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>User Overview</strong></td>
+        <td>Lists all users. Fields: Name, Email, Organisation, Role (summarised), Project count, Last Update, Status.<br>
+        Status: <span style="color:var(--green);font-weight:600">Active</span> (registered + verified) | <span style="color:var(--gray);font-weight:600">Inactive</span> (invited, not yet verified)</td>
+      </tr>
+      <tr>
+        <td><strong>Add New User</strong></td>
+        <td>Invite single user → assign to one or multiple projects in the region. Triggers invitation email (first-time or existing-user template based on user status).</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Add (CSV)</strong></td>
+        <td>Mass onboard via CSV template upload. One row = one user. New users trigger registration email; show <em>Inactive</em> until verified.</td>
+      </tr>
+      <tr>
+        <td><strong>Expand Row</strong></td>
+        <td>Click + to reveal project-level access: Role, Functional Permissions, Accessible File Categories (L1–L2). Supports View / Edit / Delete / Copy per project.</td>
+      </tr>
+      <tr>
+        <td><strong>Super Admin display</strong></td>
+        <td>Super Admin appears as a read-only row in User Management. Cannot be edited via UI — configured in backend. Auto-gets View + Edit access to all projects (existing and new).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Role Management — Permission Structure</h4>
+  <p>Roles are defined at <strong>region level</strong> and applied consistently across all projects in that region. Higher permissions automatically inherit lower ones (Edit ⊃ View).</p>
 
   <table>
     <thead>
-      <tr>
-        <th>Module</th>
-        <th>Admin</th>
-        <th>CCO Team</th>
-        <th>Local FinOps</th>
-        <th>Legal</th>
-        <th>Investor</th>
-      </tr>
+      <tr><th>Module</th><th>View</th><th>Edit</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>Announcements</strong></td>
-        <td>View + Update</td>
-        <td>View</td>
-        <td>View</td>
-        <td>View</td>
-        <td>View</td>
-      </tr>
-      <tr>
-        <td><strong>File Management</strong></td>
-        <td>View / Download + Upload</td>
-        <td>View / Download</td>
-        <td>View / Download</td>
-        <td>View / Download</td>
-        <td>View / Download</td>
-      </tr>
-      <tr>
-        <td><strong>User Management</strong></td>
-        <td>Full access</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-      </tr>
-      <tr>
-        <td><strong>Role Management</strong></td>
-        <td>Full access</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
+        <td>View announcements</td>
+        <td>View + Create announcement</td>
       </tr>
       <tr>
         <td><strong>Audit Center</strong></td>
-        <td>Full access + Export</td>
+        <td>View audit log + Export</td>
         <td>—</td>
-        <td>—</td>
-        <td>—</td>
-        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>File Management (Functional)</strong></td>
+        <td>View file list + Download</td>
+        <td>View + Create folder, Rename, Edit settings, Delete, Upload</td>
+      </tr>
+      <tr>
+        <td><strong>File Management (Folder/File Access)</strong></td>
+        <td>View file list + Download</td>
+        <td>View + Create folder, Rename, Edit settings, Delete, Upload, Recover</td>
       </tr>
     </tbody>
   </table>
+
+  <div style="background:var(--light-gray);border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.9;margin:16px 0">
+    Region<br>
+    &nbsp;└── Roles (standardized)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Module Permissions (Announcements, Audit Center, File Mgmt)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Functional: View | Edit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── File Access: L1–L2 categories, View | Edit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Applied to all projects in the region
+  </div>
+
+  <div class="callout info">
+    <strong>Key rule:</strong> A user can have different roles across different projects within a region, but <strong>cannot hold duplicate roles under the same project</strong>. Any edit to a role definition automatically propagates to all users assigned that role.
+  </div>
 
   <h3>Current Pain Points &amp; Proposed Improvements</h3>
 
