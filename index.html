@@ -727,8 +727,8 @@
 </div>
 <div class="feature-block" id="allocation-logic">
 <div class="feature-tag">Core Logic</div>
-<h3>Asset Allocation — The 4-Table Schema</h3>
-<p data-zh="分配逻辑决定在每个截止日如何在 Originator 与 SPV 之间分割应收款。Funding 应用 ABS 分配规则，采用「四表方案」：">The allocation logic determines how receivables are split between the Originator and SPV at each cutoff date. Funding applies ABS allocation rules using a "4-table schema":</p>
+<h3>Asset Allocation — The 3-Table Schema</h3>
+<p data-zh="分配逻辑决定在每个截止日如何在 Originator 与 SPV 之间分割应收款。Funding 应用 ABS 分配规则，采用「三表方案」：">The allocation logic determines how receivables are split between the Originator and SPV at each cutoff date. Funding applies ABS allocation rules using a "3-table schema":</p>
 <table>
 <thead><tr><th>Table</th><th>What It Represents</th></tr></thead>
 <tbody>
@@ -741,12 +741,8 @@
 <td data-zh="可转让给 SPV 的应收款">Receivables that can be transferred to SPV</td>
 </tr>
 <tr>
-<td data-zh="Originator 保留的部分（Monee 自留份额）"><strong>T3</strong> — Platform Side Retention</td>
-<td data-zh="Originator 保留的部分（Monee 自留份额）">Portion retained by the Originator (Monee's retained slice)</td>
-</tr>
-<tr>
-<td><strong>T4</strong> — (Output)</td>
-<td data-zh="详细分配结果，按规则和表格可追溯">Detailed allocation results, traceable by rule &amp; table</td>
+<td><strong>T3</strong> — Originator Retention</td>
+<td data-zh="Originator（Monee）自己持有的资产部分，不转让给 SPV">Assets retained by the Originator (Monee) — not transferred to SPV</td>
 </tr>
 </tbody>
 </table>
@@ -1697,7 +1693,7 @@ FunderPriorityScore_j =<br/>
     'ABS System in Layers':                                       'ABS 系统三层架构',
     'Key Feature Highlights':                                     '核心功能亮点',
     'Asset Pool Management':                                      '资产池管理',
-    'Asset Allocation — The 4-Table Schema':                      '资产分配 — 四表方案',
+    'Asset Allocation — The 3-Table Schema':                      '资产分配 — 三表方案',
     'Asset Pricing Model':                                        '资产定价模型',
     'Why Does ABS Need an Investor Portal?':                      '为什么 ABS 需要投资人门户？',
     'The Vault and the Window':                                   '金库与窗口',
